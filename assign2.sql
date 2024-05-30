@@ -76,12 +76,12 @@ SELECT * FROM bonus
 WHERE 
     (ServiceType = 1 AND
     (
-        (employeetype = 1 AND DATEDIFF(YEAR,doj,GETDATE()) >= 10 AND (60-abs(datediff(year,dob,getdate())))<=15) OR
-        (employeetype = 2 AND DATEDIFF(YEAR,doj,GETDATE()) >= 12 AND (55-abs(datediff(year,dob,getdate())))<= 14) OR
-        (employeetype = 3 AND DATEDIFF(YEAR,doj,GETDATE()) >= 12 AND (55-abs(datediff(year,dob,getdate())))<= 12)
+        (employeetype = 1 AND DATEDIFF(YEAR,doj,GETDATE()) >= 10 AND (60-abs(datediff(year,dob,getdate())))>=15) OR
+        (employeetype = 2 AND DATEDIFF(YEAR,doj,GETDATE()) >= 12 AND (55-abs(datediff(year,dob,getdate())))>= 14) OR
+        (employeetype = 3 AND DATEDIFF(YEAR,doj,GETDATE()) >= 12 AND (55-abs(datediff(year,dob,getdate())))>= 12)
     ))
 	OR
-    (ServiceType IN (2, 3, 4) AND DATEDIFF(YEAR,doj,GETDATE())>=15 AND (65-abs(datediff(year,dob,getdate())))<=20)
+    (ServiceType IN (2, 3, 4) AND DATEDIFF(YEAR,doj,GETDATE())>=15 AND (65-abs(datediff(year,dob,getdate())))>=20)
 	
 
 
@@ -90,8 +90,7 @@ alter table bonus add age as datediff(year,dob,getdate());
 alter table bonus add calservice as datediff(year,doj,getdate());
 alter table bonus drop column calservice;
 select * from bonus;
-select *,row_number() over(partition by servicetype order by calservice) as servicebysertype,min(age) over(partition by servicetype order by servicetype)as minage,max(age) over(partition by servicetype order by servicetype) as maxage,avg(age) over(partition by servicetype order by servicetype) as avgage from bonus;
-select name,servicetype,calservice,age from bonus where age in(select min(age),max(age) from bonus) ;
+select *,min(age) over(partition by servicetype order by servicetype)as minage,max(age) over(partition by servicetype order by servicetype) as maxage,avg(age) over(partition by servicetype order by servicetype) as avgage from bonus;
 
 
 
