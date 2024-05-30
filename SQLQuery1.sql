@@ -93,7 +93,11 @@ END
 drop procedure CalendarForYear;
 EXEC CalendarForYear @Year = 2023;
 select * from Calendar;
-
+create table tr(iden int,dob date,nm varchar);
+drop table tr;
+insert into tr values(1,'2002-05-13',123);
+SELECT TRY_CONVERT(char,iden) as dob_in_date FROM tr;
+insert into tr values(1,'2002-05-13');
 
 
 --Display Emp and Manager Hierarchies based on the input till the topmost hierarchy. (Input would be empid) Output: Empid, empname, managername, heirarchylevel
@@ -144,3 +148,4 @@ BEGIN
         EmployeeHierarchy;
 END;
 EXEC GetEmployeeHierarchy @InputEmployeeId = 4; 
+
