@@ -87,11 +87,15 @@ WHERE
 
 --4.write a query to Get Max, Min and Average age of employees, service of employees by service Type , Service Status for each Centre(display in years and Months)
 alter table bonus add age as datediff(year,dob,getdate());
-alter table bonus add calservice as datediff(year,doj,getdate());
+alter table bonus add calservice as CONCAT(
+        datediff(YEAR,doj,getdate()),
+        ' years and ',
+        dateDIFF(MONTH,doj,getdate()) % 12,
+        ' months'
+    );
 alter table bonus drop column calservice;
 select * from bonus;
-select *,min(age) over(partition by servicetype order by servicetype)as minage,max(age) over(partition by servicetype order by servicetype) as maxage,avg(age) over(partition by servicetype order by servicetype) as avgage from bonus;
-
+select id,name,servicetype,dob,doj,age,calservice,min(age) over(partition by servicetype order by servicetype)as minage,max(age) over(partition by servicetype order by servicetype) as maxage,avg(age) over(partition by servicetype order by servicetype) as avgage from bonus;
 
 
 --5.Write a query to list out all the employees where any of the words (Excluding Initials) in the Name starts and ends with the samecharacter. (Assume there are not more than 5 words in any name )
