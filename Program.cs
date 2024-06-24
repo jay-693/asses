@@ -18,7 +18,7 @@ namespace App1
 
     public class MyClass
     {
-        public static int MyProperty = 2000 + Global.glo;
+        public static int MyProperty = 2000 + Global.glo;//accessing a global variable throughout the program
 
         public void MyMethod()
         {
